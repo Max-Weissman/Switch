@@ -5,6 +5,8 @@ import store from './store/store';
 import Main from './components/main';
 import './index.css'
 
+console.log('hi')
+
 ReactDOM.render(
   <Provider store={store}>
     <Main />
