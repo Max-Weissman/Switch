@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack"
+    "start": "webpack",
+    "start:w": "webpack -w",
+    "host": "node server",
+    "run": "webpack & node server"
   },
   "author": "",
   "license": "ISC",
