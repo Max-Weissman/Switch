@@ -8,6 +8,9 @@ module.exports = {
     filename: './public/bundle.js'
   },
   devtool: 'source-map',
+  externals: {
+    puppeteer: require('puppeteer'),
+  },
   module: {
     rules: [
       {
