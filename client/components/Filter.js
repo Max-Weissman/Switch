@@ -9,10 +9,10 @@ class Filter extends Component {
   }
 
   render() {
-    console.log(this.state.input)
     return (
       <div>
         <input
+          className="search"
           type="text"
           value={this.state.input}
           onChange={evt => this.setState({ input: evt.target.value })}
