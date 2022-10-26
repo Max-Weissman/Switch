@@ -1,25 +1,18 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-class Filter extends Component {
-  constructor() {
-    super();
-    this.state = {
-      input: ""
-    };
-  }
+const Filter = () => {
+  const [input, setInput] = useState("")
 
-  render() {
     return (
       <div>
         <input
           className="search"
           type="text"
-          value={this.state.input}
-          onChange={evt => this.setState({ input: evt.target.value })}
+          value={input}
+          onChange={evt => setInput(evt.target.value)}
         />
       </div>
     );
-  }
 }
 
 export default Filter
