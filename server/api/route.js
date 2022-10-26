@@ -11,8 +11,13 @@ router.get('/add/:search', async function (req, res, next){
         const page = await browser.newPage()
         await page.goto("https://en.wikipedia.org/wiki/" + req.params.search)
         const result = await page.evaluate(() => {
-            const parent = document.querySelector(".infobox-image")
-            return parent.children[0].children[0].src
+            const parent = document.querySelector(".infobox").children[0]
+            const length = parent.childElementCount
+            let info = {}
+            info.image = parent.children[1].children[0].children[0].children[0].src
+            info.genre = parent.children[length - 2].children[1].children[0].innerHTML
+            info.players = parent.children[length - 1].children[1].children[0].innerHTML
+            return info
         })
         await page.screenshot({path: "picture.png"})
         await browser.close()
