@@ -21,7 +21,7 @@ const Search = () => {
 
     return <div>
                 <Filter />
-                <Slider />
+                <Slider games={games}/>
                 <Info />
            </div>
 }
