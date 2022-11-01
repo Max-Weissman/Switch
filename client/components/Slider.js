@@ -9,9 +9,11 @@ class Slider extends Component{
         this.state = {
             move: 0,
             shift: 0,
-            movement: 0
+            decelerate: 0
         }
+        this.decelerate = this.decelerate.bind(this)
         this.unclick = this.unclick.bind(this)
+        this.shifting = this.shifting.bind(this)
         this.scroll = this.scroll.bind(this)
         this.subArray = this.subArray.bind(this)
     }
@@ -20,35 +22,58 @@ class Slider extends Component{
         clicked = true
     }
 
+    decelerate (movement) {
+        console.log(movement, 'hi')
+        move += movement
+        this.setState({decelerate: 0})
+        this.shifting()
+    }
+
     unclick (event) {
+        console.log('hi')
         clicked = false
+        let movement = this.state.move
+        const decelerate = this.decelerate
+        decelerate(movement)
+        const timer = setInterval(() => {
+            decelerate(movement)
+            movement *= (2/3) 
+        }, 50)
+        console.log(timer)
+        setTimeout(() => clearInterval(timer), 1000)
+        this.setState({move: 0})
+    }
+
+    shifting () {
+        const shift = this.state.shift
+        if (move < -199){
+            move = 0
+            if (shift === this.props.games.length - 1){
+                this.setState({shift: 0})
+            }
+            else{
+                this.setState({shift: shift + 1})
+            }
+        }
+        if (move > 199){
+            move = 0
+            if (shift === 0){
+                this.setState({shift: this.props.games.length - 1})
+            }
+            else{
+                this.setState({shift: shift - 1})
+            }
+        }
     }
 
     scroll (event) {
         if (clicked){
             event.preventDefault()
             move += event.movementX
-            const shift = this.state.shift
-            if (move < -199){
-                move = 0
-                
-                if (shift === this.props.games.length - 1){
-                    this.setState({shift: 0})
-                }
-                else{
-                    this.setState({shift: shift + 1})
-                }
+            this.shifting()
+            if (move !== 0){
+                this.setState({move})
             }
-            if (move > 199){
-                move = 0
-                if (shift === 0){
-                    this.setState({shift: this.props.games.length - 1})
-                }
-                else{
-                    this.setState({shift: shift - 1})
-                }
-            }
-            this.setState({move: 1})
         }
     }
 
