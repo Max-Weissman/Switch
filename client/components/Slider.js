@@ -17,37 +17,21 @@ class Slider extends Component{
     }
 
     click (event) {
-        clicked = event.clientX
+        clicked = true
     }
 
     unclick (event) {
-        if (clicked){
-            clicked = false
-            this.setState({movement: event.clientX - clicked})
-            let interval = setInterval(() => {
-                console.log(this.state.movement)
-                this.scroll()
-                this.setState({movement: this.state.movement / 2})
-            }, 100)
-            setTimeout(() => {
-                console.log("stopping")
-                clearInterval(interval)
-                this.setState({movement: 0})
-            }, 3000)
-        }
+        clicked = false
     }
 
     scroll (event) {
-        if (clicked || this.state.movement !== 0){
+        if (clicked){
+            event.preventDefault()
+            move += event.movementX
             const shift = this.state.shift
-            if (this.state.movement !== 0){
-                move += this.state.movement
-            }
-            else{
-                move += event.movementX
-            }
             if (move < -199){
                 move = 0
+                
                 if (shift === this.props.games.length - 1){
                     this.setState({shift: 0})
                 }
