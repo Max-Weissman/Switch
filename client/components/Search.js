@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios'
 
-import Filter from './Filter'
+import TextBox from './Textbox'
 import Slider from './Slider'
 import Info from './Info'
 
@@ -20,7 +20,7 @@ const Search = () => {
     console.log(games)
 
     return <div>
-                <Filter />
+                <TextBox />
                 <Slider games={games}/>
                 <Info />
            </div>

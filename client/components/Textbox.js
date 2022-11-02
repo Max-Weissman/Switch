@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Filter = () => {
+const TextBox = () => {
   const [input, setInput] = useState("")
 
     return (
@@ -15,4 +15,4 @@ const Filter = () => {
     );
 }
 
-export default Filter
+export default TextBox

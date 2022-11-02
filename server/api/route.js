@@ -1,9 +1,27 @@
 // apiRoutes/model.js
 const puppeteer = require('puppeteer')
 const db = require('../firebase')
-const { collection, onSnapshot, query, where, addDoc, updateDoc, getDocs} = require('firebase/firestore') 
+const { collection, query, doc, addDoc, update, getDocs, updateDoc} = require('firebase/firestore') 
 
 const router = require('express').Router();
+
+router.post('/add/owner', async function (req, res, next) {
+    try{
+        const name = req.body.name
+        await addDoc(collection(db, 'owners'), req.body)
+        let games = await getDocs(collection(db, 'games'))
+        const newOwner = {}
+        newOwner[name + 'Own'] = false
+        newOwner[name + 'Complete'] = false
+        games.forEach(async game => {
+            await updateDoc(doc(db, 'games', game.id), newOwner)
+        })
+        res.sendStatus(200)
+    }
+    catch (err){
+        next(err)
+    }
+})
 
 router.get('/add/:search', async function (req, res, next){
     try{
