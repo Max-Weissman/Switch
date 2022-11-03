@@ -5,5 +5,7 @@ body {
 .waterwheel {
     display: flex;
     justify-content: center;
-
+    border: solid 5px;
+    overflow: hidden;
+    width: 1000px;
 }

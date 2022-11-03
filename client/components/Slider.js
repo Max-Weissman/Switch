@@ -9,7 +9,8 @@ class Slider extends Component{
         this.state = {
             move: 0,
             shift: 0,
-            decelerate: 0
+            decelerate: 0,
+            info: {title: false}
         }
         this.decelerate = this.decelerate.bind(this)
         this.unclick = this.unclick.bind(this)
@@ -23,14 +24,12 @@ class Slider extends Component{
     }
 
     decelerate (movement) {
-        console.log(movement, 'hi')
         move += movement
         this.setState({decelerate: 0})
         this.shifting()
     }
 
     unclick (event) {
-        console.log('hi')
         clicked = false
         let movement = this.state.move
         const decelerate = this.decelerate
@@ -39,7 +38,6 @@ class Slider extends Component{
             decelerate(movement)
             movement *= (2/3) 
         }, 50)
-        console.log(timer)
         setTimeout(() => clearInterval(timer), 1000)
         this.setState({move: 0})
     }
@@ -81,7 +79,7 @@ class Slider extends Component{
         let content = []
         let shift = this.state.shift
         let array = this.props.games
-        for (let i = 0; i < 5; i++){
+        for (let i = 0; i < 7; i++){
             let fixedShift = 0
             if (i + shift > array.length - 1){
                 fixedShift = - array.length
@@ -90,6 +88,11 @@ class Slider extends Component{
                 fixedShift = array.length - 1
             }
             let num = i + shift + fixedShift
+            let info = <div></div>
+            if (i === 3){
+                if (this.state.info.title !== array[num].title)
+                this.setState({info: array[num]})
+            }
             content.push(<div key={i} style={{"translate": move + "px"}}>
                     <img src={array[num].image} width="200" height="200"></img>
                     <div>{array[num].title}</div>
@@ -101,9 +104,14 @@ class Slider extends Component{
     }
 
     render(){
+        const info = this.state.info
         if (this.props.games.length > 0){
-            return (<div className='waterwheel' onMouseMove={this.scroll} onMouseDown={this.click} onMouseUp={this.unclick} onMouseLeave={this.unclick}>
-                {this.subArray()}
+            return (
+            <div>
+                <div className='waterwheel' onMouseMove={this.scroll} onMouseDown={this.click} onMouseUp={this.unclick} onMouseLeave={this.unclick}>
+                    {this.subArray()}
+                </div>
+                <div>{info.title}</div>
             </div>)
         }
         return <div></div>
