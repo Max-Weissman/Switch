@@ -37,7 +37,7 @@ class Slider extends Component{
         const timer = setInterval(() => {
             decelerate(movement)
             movement *= (2/3) 
-        }, 50)
+        }, 16)
         setTimeout(() => clearInterval(timer), 1000)
         this.setState({move: 0})
     }
@@ -79,7 +79,12 @@ class Slider extends Component{
         let content = []
         let shift = this.state.shift
         let array = this.props.games
-        for (let i = 0; i < 7; i++){
+        let fullness = this.props.games.length - 7
+        let sliderLength = 7
+        if (fullness < 0){
+            sliderLength += fullness
+        }
+        for (let i = 0; i < sliderLength; i++){
             let fixedShift = 0
             if (i + shift > array.length - 1){
                 fixedShift = - array.length
