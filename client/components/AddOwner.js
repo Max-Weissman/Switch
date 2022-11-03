@@ -9,7 +9,7 @@ const AddGame = () => {
     return <div>
                 <TextBox />
                 <div>{info}</div>
-                <button onClick={async () => {
+                <button onClick={async () => { //Add new owner and them to all the games as a potential owner
                     try{
                         let space = false
                         const search = document.getElementsByClassName("search")[1].value

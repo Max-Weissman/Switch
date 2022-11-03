@@ -33,7 +33,7 @@ class Slider extends Component{
         clicked = false
         let movement = this.state.move
         const decelerate = this.decelerate
-        decelerate(movement)
+        decelerate(movement) //After unclicking slows down over 1 second using the decelerate function 
         const timer = setInterval(() => {
             decelerate(movement)
             movement *= (2/3) 
@@ -42,7 +42,7 @@ class Slider extends Component{
         this.setState({move: 0})
     }
 
-    shifting () {
+    shifting () { //moves array if pulled by user or decelerating
         const shift = this.state.shift
         if (move < -199){
             move = 0
@@ -64,7 +64,7 @@ class Slider extends Component{
         }
     }
 
-    scroll (event) {
+    scroll (event) { //Controlled movement by user
         if (clicked){
             event.preventDefault()
             move += event.movementX
@@ -75,7 +75,7 @@ class Slider extends Component{
         }
     }
 
-    subArray = () => {
+    subArray = () => { //Turns the array of games into a cycle that loops on itself
         let content = []
         let shift = this.state.shift
         let array = this.props.games

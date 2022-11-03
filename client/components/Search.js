@@ -13,15 +13,15 @@ const Search = () => {
         getGames()
     }, [])
 
-    const getGames = async () => {
+    const getGames = async () => { //Initial grab from database
         const data = (await axios.get('api/route')).data
         setGames(data)
         setFilteredGames(data)
     }
 
     const filterGames = (search) => {
-        const entry = search.toUpperCase()
-        const filter = document.getElementById("categories").value
+        const entry = search.toUpperCase() //Text input from user
+        const filter = document.getElementById("categories").valu
         const filter2 = document.getElementById("players").value
         const filteredOnce = games.filter(game => {
             if (filter === 'title'){
@@ -33,7 +33,7 @@ const Search = () => {
                     return false
                 }
             }
-            else if (filter === 'genre'){
+            else if (filter === 'genre'){ //Genre is stored as one string, must seperate individual categories
                 let target = game.genre.toUpperCase().split(' ')
                 for (let i = 0; i < target.length; i++){
                     if (target[i].includes(entry)){
@@ -42,7 +42,7 @@ const Search = () => {
                     return false
                 }
             }
-            else if (filter === 'owner'){
+            else if (filter === 'owner'){ //owner and completed stored as NAMEowner and COMPLETEDowner
                 for (let keys in game){
                     if (keys.toUpperCase().includes(entry)){
                         if (game[keys]){
@@ -63,7 +63,7 @@ const Search = () => {
                 return false
             }
         })
-        const filtered = filteredOnce.filter(game => {
+        const filtered = filteredOnce.filter(game => { //A game can be both categories, is inclusive
             let players = game.players.toUpperCase().split(' ')
             if (filter2 === 'multi'){
                 for (let i = 0; i < players.length; i++){
@@ -79,7 +79,7 @@ const Search = () => {
                     }
                 }
             }
-            else{
+            else{ //if no filter for this section
                 return true
             }
         })

@@ -5,7 +5,7 @@ const { collection, query, doc, addDoc, update, getDocs, updateDoc} = require('f
 
 const router = require('express').Router();
 
-router.post('/add/owner', async function (req, res, next) {
+router.post('/add/owner', async function (req, res, next) { //Adds a new owner
     try{
         const name = req.body.name
         await addDoc(collection(db, 'owners'), req.body)
@@ -13,7 +13,7 @@ router.post('/add/owner', async function (req, res, next) {
         const newOwner = {}
         newOwner[name + 'Own'] = false
         newOwner[name + 'Complete'] = false
-        games.forEach(async game => {
+        games.forEach(async game => { //adds each owner to each game as potential owner and completer
             await updateDoc(doc(db, 'games', game.id), newOwner)
         })
         res.sendStatus(200)
@@ -23,7 +23,7 @@ router.post('/add/owner', async function (req, res, next) {
     }
 })
 
-router.get('/add/:search', async function (req, res, next){
+router.get('/add/:search', async function (req, res, next){ //puppeteer tool that searches wikipedia and scrapes for info on a game
     try{
         console.log(req.params.search)
         const browser = await puppeteer.launch()
@@ -63,7 +63,7 @@ router.get('/add/:search', async function (req, res, next){
     }
 })
 
-router.post('/add', async function (req, res, next) {
+router.post('/add', async function (req, res, next) { //add game data onto the database
     try{
         await addDoc(collection(db, 'games'), req.body)
         res.sendStatus(200)
@@ -73,7 +73,7 @@ router.post('/add', async function (req, res, next) {
     }
 })
 
-router.get('/', async function (req, res, next) {
+router.get('/', async function (req, res, next) { //grab games from database
     try{
         const games = (await getDocs(query(collection(db, 'games')))).docs.map(doc => doc.data())
         console.log(games)

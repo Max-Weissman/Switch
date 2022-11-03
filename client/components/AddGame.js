@@ -11,7 +11,7 @@ const AddGame = () => {
                 <img src={info.image}></img>
                 <div>{info.genre}</div>
                 <div>{info.players}</div>
-                <button onClick={async () => {
+                <button onClick={async () => { //Finds the info for the game if it exists on wikipedia
                     try{
                         let space = false
                         const search = document.getElementsByClassName("search")[0].value.split('').map((letter,index) => {
@@ -43,7 +43,7 @@ const AddGame = () => {
                         setInfo({players: "Not a game"})
                         }
                 }}>Search</button>
-                <button className='Add' onClick={async () => {
+                <button className='Add' onClick={async () => { //Add game to catalogue after info for it has been found from wikipedia
                     try {
                         await axios.post('api/route/add', info)
                         setInfo({players: 'Added game to collection'})
