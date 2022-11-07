@@ -9,3 +9,11 @@ body {
     overflow: hidden;
     width: 1000px;
 }
+
+.unchecked {
+    border: dashed 10px
+}
+
+.checked {
+    border: solid 5px
+}

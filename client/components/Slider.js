@@ -17,6 +17,9 @@ class Slider extends Component{
         this.shifting = this.shifting.bind(this)
         this.scroll = this.scroll.bind(this)
         this.subArray = this.subArray.bind(this)
+        this.owners = this.owners.bind(this)
+        this.checkingOwn = this.checkingOwn.bind(this)
+        this.checkingComplete = this.checkingComplete.bind(this)
     }
 
     click (event) {
@@ -65,8 +68,8 @@ class Slider extends Component{
     }
 
     scroll (event) { //Controlled movement by user
+        event.preventDefault()
         if (clicked){
-            event.preventDefault()
             move += event.movementX
             this.shifting()
             if (move !== 0){
@@ -95,8 +98,9 @@ class Slider extends Component{
             let num = i + shift + fixedShift
             let info = <div></div>
             if (i === 3){
-                if (this.state.info.title !== array[num].title)
-                this.setState({info: array[num]})
+                if (this.state.info.title !== array[num].title){
+                    this.setState({info: array[num]})
+                }
             }
             content.push(<div key={i} style={{"translate": move + "px"}}>
                     <img src={array[num].image} width="200" height="200"></img>
@@ -108,6 +112,42 @@ class Slider extends Component{
         return content
     }
 
+    owners = () => {
+        if (this.state.info){
+            let info = this.state.info
+            let checks = []
+            let owners = this.props.owners
+            for (let i = 0; i < owners.length; i++){
+                let owner = owners[i]
+                let own = "unchecked"
+                let complete = "unchecked"
+                if (info[owner.name + "Own"]){
+                    console.log('hi')
+                    own = "checked"
+                }
+                if (info[owner.name + "Complete"]){
+                    complete = "checked"
+                }
+                checks.push(<div key={i}>
+                                <div className={own} onClick={() => this.checkingOwn(info, owner.name)}>own: {owner.name}</div>
+                                <div className={complete} onClick={() => this.checkingComplete(info, owner.name)}>complete: {owner.name}</div>
+                            </div>)
+            }
+            return checks
+        }
+        return <div></div>
+    }
+
+    checkingOwn(info, owner){
+        this.props.checkOwn(info, owner)
+        this.setState({info: {...info, [owner + "Own"]: !info[owner + "Own"]}})
+    }
+
+    checkingComplete(info, owner){
+        this.props.checkComplete(info, owner)
+        this.setState({info: {...info, [owner + "Complete"]: !info[owner + "Complete"]}})
+    }
+
     render(){
         const info = this.state.info
         if (this.props.games.length > 0){
@@ -117,6 +157,7 @@ class Slider extends Component{
                     {this.subArray()}
                 </div>
                 <div>{info.title}</div>
+                <div>{this.owners()}</div>
             </div>)
         }
         return <div></div>

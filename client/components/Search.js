@@ -8,6 +8,7 @@ import Info from './Info'
 const Search = () => {
     const [games, setGames] = useState([])
     const [filteredGames, setFilteredGames] = useState([])
+    const [owners, setOwners] = useState([])
 
     useEffect( () => {
         getGames()
@@ -15,13 +16,22 @@ const Search = () => {
 
     const getGames = async () => { //Initial grab from database
         const data = (await axios.get('api/route')).data
-        setGames(data)
-        setFilteredGames(data)
+        setGames(data.games)
+        setFilteredGames(data.games)
+        setOwners(data.owners)
+    }
+
+    const checkOwn = async (info, owner) => {
+        const data = (await axios.put('api/route/own', {info, owner}))
+    }
+
+    const checkComplete = async (info, owner) => {
+        const data = (await axios.put('api/route/complete', {info, owner}))
     }
 
     const filterGames = (search) => {
         const entry = search.toUpperCase() //Text input from user
-        const filter = document.getElementById("categories").valu
+        const filter = document.getElementById("categories").value
         const filter2 = document.getElementById("players").value
         const filteredOnce = games.filter(game => {
             if (filter === 'title'){
@@ -45,7 +55,7 @@ const Search = () => {
             else if (filter === 'owner'){ //owner and completed stored as NAMEowner and COMPLETEDowner
                 for (let keys in game){
                     if (keys.toUpperCase().includes(entry)){
-                        if (game[keys]){
+                        if (game[keys] && typeof game[keys] === 'boolean'){
                             return true
                         }
                     }
@@ -55,7 +65,7 @@ const Search = () => {
             else {
                 for (let keys in game){
                     if (keys.toUpperCase().includes(entry)){
-                        if (game[keys]){
+                        if (game[keys] && typeof game[keys] === 'boolean'){
                             return true
                         }
                     }
@@ -86,7 +96,7 @@ const Search = () => {
         setFilteredGames(filtered)
     }
 
-    console.log(filteredGames)
+    console.log(owners)
 
     return <div>
                 <label htmlFor="categories">Category:</label>
@@ -104,7 +114,7 @@ const Search = () => {
                 </select>
                 <input type="text" onChange={evt => filterGames(evt.target.value)}
                 />
-                <Slider games={filteredGames}/>
+                <Slider games={filteredGames} owners={owners} checkOwn={checkOwn} checkComplete={checkComplete}/>
                 <Info />
            </div>
 }
