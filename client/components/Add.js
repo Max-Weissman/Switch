@@ -4,7 +4,7 @@ import AddGame from './AddGame'
 import AddOwner from './AddOwner'
 
 const Main = () => {
-    return <div>
+    return <div className='content'>
                 <AddGame />
                 <AddOwner />
            </div>

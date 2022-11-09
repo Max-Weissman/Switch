@@ -96,26 +96,25 @@ const Search = () => {
         setFilteredGames(filtered)
     }
 
-    console.log(owners)
-
-    return <div>
-                <label htmlFor="categories">Category:</label>
-                <select name="categories" id="categories">
-                    <option value="title">Title</option>
-                    <option value="genre">Genre</option>
-                    <option value="owner">Owner</option>
-                    <option value="completed">Completed</option>
-                </select>
+    return <div className='content'>
+                <div className='filter'>
                 <label htmlFor="players">Players:</label>
-                <select name="players" id="players">
-                    <option value="any">Any</option>
-                    <option value="single">Single Player</option>
-                    <option value="multi">Multiplayer</option>
-                </select>
-                <input type="text" onChange={evt => filterGames(evt.target.value)}
-                />
+                    <select name="players" id="players">
+                        <option value="any">Any</option>
+                        <option value="single">Single Player</option>
+                        <option value="multi">Multiplayer</option>
+                    </select>
+                    <label htmlFor="categories">Category:</label>
+                    <select name="categories" id="categories">
+                        <option value="title">Title</option>
+                        <option value="genre">Genre</option>
+                        <option value="owner">Owner</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <input type="text" onChange={evt => filterGames(evt.target.value)}
+                    />
+                </div>
                 <Slider games={filteredGames} owners={owners} checkOwn={checkOwn} checkComplete={checkComplete}/>
-                <Info />
            </div>
 }
 

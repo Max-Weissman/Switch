@@ -82,8 +82,8 @@ class Slider extends Component{
         let content = []
         let shift = this.state.shift
         let array = this.props.games
-        let fullness = this.props.games.length - 7
-        let sliderLength = 7
+        let fullness = this.props.games.length - 10
+        let sliderLength = 10
         if (fullness < 0){
             sliderLength += fullness
         }
@@ -117,20 +117,23 @@ class Slider extends Component{
             let info = this.state.info
             let checks = []
             let owners = this.props.owners
+            checks.push(<div key={0} className="user">
+                            <div className="own checked" >Owners</div>
+                            <div className="own checked" >Completed</div>
+                        </div>)
             for (let i = 0; i < owners.length; i++){
                 let owner = owners[i]
                 let own = "unchecked"
                 let complete = "unchecked"
                 if (info[owner.name + "Own"]){
-                    console.log('hi')
                     own = "checked"
                 }
                 if (info[owner.name + "Complete"]){
                     complete = "checked"
                 }
-                checks.push(<div key={i}>
-                                <div className={own} onClick={() => this.checkingOwn(info, owner.name)}>own: {owner.name}</div>
-                                <div className={complete} onClick={() => this.checkingComplete(info, owner.name)}>complete: {owner.name}</div>
+                checks.push(<div key={i + 1} className="user">
+                                <div className={`own ${own}`} onClick={() => this.checkingOwn(info, owner.name)}>{owner.name}</div>
+                                <div className={`complete ${complete}`} onClick={() => this.checkingComplete(info, owner.name)}>{owner.name}</div>
                             </div>)
             }
             return checks
@@ -152,12 +155,12 @@ class Slider extends Component{
         const info = this.state.info
         if (this.props.games.length > 0){
             return (
-            <div>
+            <div className="slider">
                 <div className='waterwheel' onMouseMove={this.scroll} onMouseDown={this.click} onMouseUp={this.unclick} onMouseLeave={this.unclick}>
                     {this.subArray()}
                 </div>
-                <div>{info.title}</div>
-                <div>{this.owners()}</div>
+                <div className="gameName">{info.title}</div>
+                <div className="checks">{this.owners()}</div>
             </div>)
         }
         return <div></div>
