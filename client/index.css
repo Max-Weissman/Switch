@@ -2,9 +2,38 @@ body {
     background-color: #ff0020;
 }
 
+@keyframes slideInFromLeft {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+.Navbar {
+    font-family: system-ui;
+    font-weight: bolder;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10;
+    border-bottom: solid 2px;
+}
+
+.Navbar a {
+    text-decoration: none;
+    color: black;
+    font-size: large;
+}
+
+.Navbar a:hover {
+    text-decoration: underline;
+}
+
 .content * {
     font-family: system-ui;
     font-weight: bolder;
+    animation: 1s ease-out 0s 1 slideInFromLeft;
 }
 
 .scraper {
@@ -13,10 +42,14 @@ body {
     align-items: center;
 }
 
+.margin {
+    margin-top: 15px;
+}
+
 .filter {
     display: flex;
     justify-content: center;
-    margin: 5;
+    margin: 15;
 }
 
 .filter div, .filter input, .filter label {
@@ -30,6 +63,7 @@ body {
     border: solid 5px;
     overflow: hidden;
     width: 1000px;
+    margin: 1px;
 }
 
 .slider {
@@ -40,6 +74,7 @@ body {
 
 .gameName {
     font-size: 30;
+    padding: 10;
 }
 
 .checks {
@@ -67,6 +102,14 @@ body {
     border-radius: 30px;
     padding: 5px;
     text-align: center;
+}
+
+.own:hover, .complete:hover {
+    border-color: #cac9c9;
+}
+
+.label:hover {
+    border-color: black;
 }
 
 .unchecked {

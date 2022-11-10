@@ -7,7 +7,7 @@ const AddGame = () => {
     const [info, setInfo] = useState({players: 'Type in the name of a game'})
 
     return <div className='scraper'>
-                <img src={info.image}></img>
+                <img src={info.image} className='margin'></img>
                 <div>{info.genre}</div>
                 <div>{info.players}</div>
                 <div className='filter'>

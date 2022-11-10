@@ -118,8 +118,8 @@ class Slider extends Component{
             let checks = []
             let owners = this.props.owners
             checks.push(<div key={0} className="user">
-                            <div className="own checked" >Owners</div>
-                            <div className="own checked" >Completed</div>
+                            <div className="own checked label" >Owners</div>
+                            <div className="own checked label" >Completed</div>
                         </div>)
             for (let i = 0; i < owners.length; i++){
                 let owner = owners[i]
