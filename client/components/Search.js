@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios'
 
-import TextBox from './Textbox'
+import Navbar from './Navbar'
 import Slider from './Slider'
-import Info from './Info'
 
 const Search = () => {
     const [games, setGames] = useState([])
@@ -97,6 +96,7 @@ const Search = () => {
     }
 
     return <div className='content'>
+                <Navbar page="cat"/>
                 <div className='filter'>
                 <label htmlFor="players">Players:</label>
                     <select name="players" id="players">

@@ -65,7 +65,13 @@ router.get('/add/:search', async function (req, res, next){ //puppeteer tool tha
 
 router.post('/add', async function (req, res, next) { //add game data onto the database
     try{
-        await addDoc(collection(db, 'games'), req.body)
+        let game = req.body.info
+        const owners = req.body.owners
+        owners.forEach(owner => {
+            game[owner.name + 'Own'] = owner.own
+            game[owner.name + 'Complete'] = owner.complete
+        })
+        await addDoc(collection(db, 'games'), game)
         res.sendStatus(200)
     }
     catch (err){
@@ -91,6 +97,17 @@ router.put('/complete', async function (req, res, next) {
         const game = id.data()
         await updateDoc(doc(db, 'games', id.id), {[req.body.owner + "Complete"]: !game[req.body.owner + "Complete"]})
         res.sendStatus(200)
+    }
+    catch (err){
+        next(err)
+    }
+})
+
+
+router.get('/owner', async function (req, res, next) { //grab games from database
+    try{
+        const owners = (await getDocs(query(collection(db, 'owners')))).docs.map(doc => doc.data())
+        res.send({owners})
     }
     catch (err){
         next(err)

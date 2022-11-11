@@ -97,12 +97,14 @@ class Slider extends Component{
             }
             let num = i + shift + fixedShift
             let info = <div></div>
-            if (i === 3){
+            let center = ""
+            if (i === 4){
+                center = "highlighted"
                 if (this.state.info.title !== array[num].title){
                     this.setState({info: array[num]})
                 }
             }
-            content.push(<div key={i} style={{"translate": move + "px"}}>
+            content.push(<div key={i} style={{"translate": move + "px"}} className={center}>
                     <img src={array[num].image} width="200" height="200"></img>
                     <div>{array[num].title}</div>
                     <div>{array[num].genre}</div>

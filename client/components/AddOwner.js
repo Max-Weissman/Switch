@@ -18,7 +18,7 @@ const AddGame = () => {
                             console.log(search)
                             await axios.post('/api/route/add/owner', {name: search})
                             console.log('Working')
-                            setInfo('Added' + search)
+                            setInfo('Added ' + search)
                             }
                             catch (err){
                             console.log("ERROR")
