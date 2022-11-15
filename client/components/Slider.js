@@ -20,6 +20,7 @@ class Slider extends Component{
         this.shifting = this.shifting.bind(this)
         this.scroll = this.scroll.bind(this)
         this.subArray = this.subArray.bind(this)
+        this.shift = this.shift.bind(this)
     }
 
     click (event) {
@@ -122,13 +123,29 @@ class Slider extends Component{
         this.setState({info: {...info, [owner + "Complete"]: !info[owner + "Complete"]}})
     }
 
+    shift = (movement) => {
+        const decelerate = this.decelerate
+        decelerate(movement) //After unclicking slows down over 1 second using the decelerate function 
+        const timer = setInterval(() => {
+            decelerate(movement)
+            movement *= (2/3) 
+        }, 16)
+        setTimeout(() => clearInterval(timer), 1000)
+        this.setState({move: 0})
+    }
+
     render(){
         if (this.props.games.length > 0){
             return (
-            <div className="slider">
-                <div className='waterwheel' onMouseMove={this.scroll} onMouseDown={this.click} onMouseUp={this.unclick} onMouseLeave={this.unclick}>
-                    {this.subArray()}
+            <div className="info">
+                <div className="arrows">
+                    <div onClick={() => this.shift(-55)} className="arrow">&#8592;</div>
+                    <div className='waterwheel' onMouseMove={this.scroll} onMouseDown={this.click} onMouseUp={this.unclick} onMouseLeave={this.unclick}>
+                        {this.subArray()}
+                    </div>
+                    <div onClick={() => this.shift(55)} className="arrow">&#8594;</div>
                 </div>
+                
                 <SliderInfo owners={this.props.owners} checkOwn={this.props.checkOwn} checkComplete={this.props.checkComplete} info={this.state.info} settingOwn={this.settingOwn} settingComplete={this.settingComplete}/>
             </div>)
         }

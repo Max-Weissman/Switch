@@ -65,6 +65,15 @@ body {
     margin-right: 10px;
 }
 
+.arrows {
+    display: flex;
+    align-items: center;
+}
+
+.arrow {
+    font-size: 60;
+}
+
 .waterwheel {
     display: flex;
     justify-content: center;
@@ -74,7 +83,7 @@ body {
     margin: 1px;
 }
 
-.slider {
+.info {
     display: flex;
     align-items: center;
     flex-direction: column;

@@ -41,7 +41,7 @@ const SliderInfo = (props) => {
         props.settingComplete(info,owner)
     }
 
-    return <div className='slider'>
+    return <div className='info'>
                 <div className="gameName">{props.info.title}</div>
                 <div className="checks">{owners()}</div>
            </div>
