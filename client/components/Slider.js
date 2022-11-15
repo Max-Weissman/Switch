@@ -1,29 +1,29 @@
 import React, { Component } from "react";
 
+import SliderInfo from './SliderInfo'
+
 let move = 0
-let clicked = false
 
 class Slider extends Component{
     constructor() {
         super()
         this.state = {
+            clicked: false,
             move: 0,
             shift: 0,
             decelerate: 0,
             info: {title: false}
         }
+        this.click = this.click.bind(this)
         this.decelerate = this.decelerate.bind(this)
         this.unclick = this.unclick.bind(this)
         this.shifting = this.shifting.bind(this)
         this.scroll = this.scroll.bind(this)
         this.subArray = this.subArray.bind(this)
-        this.owners = this.owners.bind(this)
-        this.checkingOwn = this.checkingOwn.bind(this)
-        this.checkingComplete = this.checkingComplete.bind(this)
     }
 
     click (event) {
-        clicked = true
+        this.setState({clicked: true})
     }
 
     decelerate (movement) {
@@ -33,7 +33,7 @@ class Slider extends Component{
     }
 
     unclick (event) {
-        clicked = false
+        this.setState({clicked:false})
         let movement = this.state.move
         const decelerate = this.decelerate
         decelerate(movement) //After unclicking slows down over 1 second using the decelerate function 
@@ -69,7 +69,7 @@ class Slider extends Component{
 
     scroll (event) { //Controlled movement by user
         event.preventDefault()
-        if (clicked){
+        if (this.state.clicked){
             move += event.movementX
             this.shifting()
             if (move !== 0){
@@ -114,55 +114,22 @@ class Slider extends Component{
         return content
     }
 
-    owners = () => {
-        if (this.state.info){
-            let info = this.state.info
-            let checks = []
-            let owners = this.props.owners
-            checks.push(<div key={0} className="user">
-                            <div className="own checked label" >Owners</div>
-                            <div className="own checked label" >Completed</div>
-                        </div>)
-            for (let i = 0; i < owners.length; i++){
-                let owner = owners[i]
-                let own = "unchecked"
-                let complete = "unchecked"
-                if (info[owner.name + "Own"]){
-                    own = "checked"
-                }
-                if (info[owner.name + "Complete"]){
-                    complete = "checked"
-                }
-                checks.push(<div key={i + 1} className="user">
-                                <div className={`own ${own}`} onClick={() => this.checkingOwn(info, owner.name)}>{owner.name}</div>
-                                <div className={`complete ${complete}`} onClick={() => this.checkingComplete(info, owner.name)}>{owner.name}</div>
-                            </div>)
-            }
-            return checks
-        }
-        return <div></div>
-    }
-
-    checkingOwn(info, owner){
-        this.props.checkOwn(info, owner)
+    settingOwn = (info, owner) => {
         this.setState({info: {...info, [owner + "Own"]: !info[owner + "Own"]}})
     }
-
-    checkingComplete(info, owner){
-        this.props.checkComplete(info, owner)
+    
+    settingComplete = (info, owner) => {
         this.setState({info: {...info, [owner + "Complete"]: !info[owner + "Complete"]}})
     }
 
     render(){
-        const info = this.state.info
         if (this.props.games.length > 0){
             return (
             <div className="slider">
                 <div className='waterwheel' onMouseMove={this.scroll} onMouseDown={this.click} onMouseUp={this.unclick} onMouseLeave={this.unclick}>
                     {this.subArray()}
                 </div>
-                <div className="gameName">{info.title}</div>
-                <div className="checks">{this.owners()}</div>
+                <SliderInfo owners={this.props.owners} checkOwn={this.props.checkOwn} checkComplete={this.props.checkComplete} info={this.state.info} settingOwn={this.settingOwn} settingComplete={this.settingComplete}/>
             </div>)
         }
         return <div></div>
