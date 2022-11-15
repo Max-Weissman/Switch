@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { useSwipeable } from "react-swipeable";
 
 import SliderInfo from './SliderInfo'
 
@@ -106,7 +107,7 @@ class Slider extends Component{
                 }
             }
             content.push(<div key={i} style={{"translate": move + "px"}} className={center}>
-                    <img src={array[num].image} width="200" height="200"></img>
+                    <img src={array[num].image} className={"pic"}></img>
                     <div>{array[num].title}</div>
                     <div>{array[num].genre}</div>
                     <div>{array[num].players}</div>
@@ -134,7 +135,12 @@ class Slider extends Component{
         this.setState({move: 0})
     }
 
+    // const handlers = useSwipeable({
+    //     onSwiped: (eventData) => console.log("User Swiped!", eventData)
+    //   });
+
     render(){
+        
         if (this.props.games.length > 0){
             return (
             <div className="info">

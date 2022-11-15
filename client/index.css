@@ -83,6 +83,11 @@ body {
     margin: 1px;
 }
 
+.pic {
+    width: 200;
+    height: 200;
+}
+
 .info {
     display: flex;
     align-items: center;
@@ -145,3 +150,145 @@ body {
     background-color: #fffa29;
     color: black;
 }
+
+@media only screen and (max-width: 600px) {
+    body {
+      
+    }
+    .Navbar {
+
+    }
+    
+    .title {
+        font-size: large;
+        color: lightblue;
+    }
+    
+    .Navbar a {
+        text-decoration: none;
+        color: black;
+        font-size: large;
+    }
+    
+    .Navbar .selected {
+        text-decoration: underline;
+    }
+    
+    .Navbar a:hover {
+        text-decoration: underline;
+    }
+    
+    .content * {
+        font-family: system-ui;
+        font-weight: bolder;
+        animation: 0.3s ease-out 0s 1 slideInFromLeft;
+    }
+    
+    .scraper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .margin {
+        margin-top: 15px;
+    }
+    
+    .filter {
+        flex-direction: column;
+        margin-top: 0px
+    }
+    
+    .filter div, .filter input, .filter label {
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    
+    .arrows {
+        display: flex;
+        align-items: center;
+    }
+    
+    .arrow {
+        font-size: 60;
+    }
+    
+    .waterwheel {
+        display: flex;
+        justify-content: center;
+        border: solid 5px;
+        overflow: hidden;
+        width: 1000px;
+        margin: 1px;
+    }
+
+    .pic {
+        width: 200;
+        height: 200;
+    }
+    
+    .info {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    
+    .highlighted {
+        border: solid 5px;
+        width: 199
+    }
+    
+    .gameName {
+        font-size: 30;
+        padding: 10;
+    }
+    
+    .checks {
+        display: flex
+    }
+    
+    .user {
+    
+    }
+    
+    .own {
+        border: solid 5px;
+        margin: 5px;
+        border-radius: 30px;
+        padding: 5px;
+        text-align: center;
+    }
+    
+    .complete {
+        background-color: blue;
+        border: solid 5px;
+        text-decoration: line-through;
+        text-decoration-thickness: 3px;
+        margin: 5px;
+        border-radius: 30px;
+        padding: 5px;
+        text-align: center;
+    }
+    
+    .own:hover, .complete:hover {
+        border-color: #cac9c9;
+    }
+    
+    .label:hover {
+        border-color: black;
+    }
+    
+    .unchecked {
+        background-color: red;
+        color:  #ff7f5a;
+        border: black solid 5px;
+        text-decoration: none;
+    }
+    
+    .checked {
+        background-color: #fffa29;
+        color: black;
+    }
+  }
