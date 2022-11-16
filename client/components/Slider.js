@@ -9,16 +9,8 @@ let shift = 0
 let clicked = false
 
 const Slider = (props) => {
-    const [info, setInfo] = useState({title: false})
+    const [info, setInfo] = useState(-1)
     const [content, setContent] = useState([])
-    
-    // click = click.bind(this)
-    // decelerate = decelerate.bind(this)
-    // unclick = unclick.bind(this)
-    // shifting = shifting.bind(this)
-    // scroll = scroll.bind(this)
-    // subArray = subArray.bind(this)
-    // shiftOne = shiftOne.bind(this)
 
     useEffect( () => {
         subArray()
@@ -100,7 +92,7 @@ const Slider = (props) => {
             if (i === 4){
                 center = "highlighted"
                 if (info.title !== array[num].title){
-                    setInfo(array[num])
+                    setInfo(num)
                 }
             }
             content.push(<div key={i} style={{"translate": move + "px"}} className={center}>
@@ -111,14 +103,6 @@ const Slider = (props) => {
                 </div>)
         }
         setContent(content)
-    }
-
-    const settingOwn = (info, owner) => {
-        setInfo({...info, [owner + "Own"]: !info[owner + "Own"]})
-    }
-    
-    const settingComplete = (info, owner) => {
-        setInfo({...info, [owner + "Complete"]: !info[owner + "Complete"]})
     }
 
     const shiftOne = (moving) => { //After unclicking slows down over 1 second using the decelerate function 
@@ -144,7 +128,7 @@ const Slider = (props) => {
             </div>
             <div onClick={() => shiftOne(70)} className="arrow">&#8594;</div>
         </div>
-        <SliderInfo owners={props.owners} checkOwn={props.checkOwn} checkComplete={props.checkComplete} info={info} settingOwn={settingOwn} settingComplete={settingComplete}/>
+        <SliderInfo owners={props.owners} checkOwn={props.checkOwn} checkComplete={props.checkComplete} game={props.games[info]} info={info}/>
     </div>)
 }
 

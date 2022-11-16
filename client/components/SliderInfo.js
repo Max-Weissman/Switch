@@ -3,8 +3,8 @@ import React from 'react';
 const SliderInfo = (props) => {
 
     const owners = () => {
-        if (props.info){
-            let info = props.info
+        if (props.game){
+            let info = props.game
             let checks = []
             let owners = props.owners
             checks.push(<div key={0} className="user">
@@ -22,8 +22,8 @@ const SliderInfo = (props) => {
                     complete = "checked"
                 }
                 checks.push(<div key={i + 1} className="user">
-                                <div className={`own ${own}`} onClick={() => checkingOwn(info, owner.name)}>{owner.name}</div>
-                                <div className={`complete ${complete}`} onClick={() => checkingComplete(info, owner.name)}>{owner.name}</div>
+                                <div className={`own ${own}`} onClick={() => checkingOwn(props.info, owner.name)}>{owner.name}</div>
+                                <div className={`complete ${complete}`} onClick={() => checkingComplete(props.info, owner.name)}>{owner.name}</div>
                             </div>)
             }
             return checks
@@ -33,12 +33,10 @@ const SliderInfo = (props) => {
 
     const checkingOwn = (info, owner) => {
         props.checkOwn(info, owner)
-        props.settingOwn(info, owner)
     }
 
     const checkingComplete = (info, owner) =>{
         props.checkComplete(info, owner)
-        props.settingComplete(info,owner)
     }
 
     return <div className='info'>

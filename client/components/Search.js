@@ -8,6 +8,7 @@ const Search = () => {
     const [games, setGames] = useState([])
     const [filteredGames, setFilteredGames] = useState([])
     const [owners, setOwners] = useState([])
+    const [info, setInfo] = useState({title: false})
 
     useEffect( () => {
         getGames()
@@ -21,11 +22,17 @@ const Search = () => {
     }
 
     const checkOwn = async (info, owner) => {
-        const data = (await axios.put('api/route/own', {info, owner}))
+        const change = games.slice()
+        change[info][owner + "Own"] = !change[info][owner + "Own"]
+        setGames(change)
+        await axios.put('api/route/own', {change: change[info], owner})
     }
 
     const checkComplete = async (info, owner) => {
-        const data = (await axios.put('api/route/complete', {info, owner}))
+        const change = games.slice()
+        change[info][owner + "Complete"] = !change[info][owner + "Complete"]
+        setGames(change)
+        await axios.put('api/route/complete', {change: change[info], owner})
     }
 
     const filterGames = (search) => {
@@ -114,7 +121,7 @@ const Search = () => {
                     <input type="text" onChange={evt => filterGames(evt.target.value)}
                     />
                 </div>
-                <Slider games={filteredGames} owners={owners} checkOwn={checkOwn} checkComplete={checkComplete}/>
+                <Slider games={filteredGames} owners={owners} checkOwn={checkOwn} checkComplete={checkComplete} info={info}/>
            </div>
 }
 

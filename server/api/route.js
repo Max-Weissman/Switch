@@ -81,7 +81,7 @@ router.post('/add', async function (req, res, next) { //add game data onto the d
 
 router.put('/own', async function (req, res, next) {
     try{
-        const id = (await getDocs(query(collection(db, "games"), where("title", "==", req.body.info.title)))).docs[0]
+        const id = (await getDocs(query(collection(db, "games"), where("title", "==", req.body.change.title)))).docs[0]
         const game = id.data()
         await updateDoc(doc(db, 'games', id.id), {[req.body.owner + "Own"]: !game[req.body.owner + "Own"]})
         res.sendStatus(200)
@@ -93,7 +93,7 @@ router.put('/own', async function (req, res, next) {
 
 router.put('/complete', async function (req, res, next) {
     try{
-        const id = (await getDocs(query(collection(db, "games"), where("title", "==", req.body.info.title)))).docs[0]
+        const id = (await getDocs(query(collection(db, "games"), where("title", "==", req.body.change.title)))).docs[0]
         const game = id.data()
         await updateDoc(doc(db, 'games', id.id), {[req.body.owner + "Complete"]: !game[req.body.owner + "Complete"]})
         res.sendStatus(200)
