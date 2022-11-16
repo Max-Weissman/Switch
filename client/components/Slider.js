@@ -1,90 +1,87 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 
 import SliderInfo from './SliderInfo'
 
 let move = 0
+let movement = 0
+let shift = 0
+let clicked = false
 
-class Slider extends Component{
-    constructor() {
-        super()
-        this.state = {
-            clicked: false,
-            move: 0,
-            shift: 0,
-            decelerate: 0,
-            info: {title: false}
-        }
-        this.click = this.click.bind(this)
-        this.decelerate = this.decelerate.bind(this)
-        this.unclick = this.unclick.bind(this)
-        this.shifting = this.shifting.bind(this)
-        this.scroll = this.scroll.bind(this)
-        this.subArray = this.subArray.bind(this)
-        this.shift = this.shift.bind(this)
+const Slider = (props) => {
+    const [info, setInfo] = useState({title: false})
+    const [content, setContent] = useState([])
+    
+    // click = click.bind(this)
+    // decelerate = decelerate.bind(this)
+    // unclick = unclick.bind(this)
+    // shifting = shifting.bind(this)
+    // scroll = scroll.bind(this)
+    // subArray = subArray.bind(this)
+    // shiftOne = shiftOne.bind(this)
+
+    useEffect( () => {
+        subArray()
+    },[props.games])
+
+    const click = (event) => {
+        clicked = true
     }
 
-    click (event) {
-        this.setState({clicked: true})
+    const decelerate = (moving) => {
+        move += moving
+        subArray()
     }
 
-    decelerate (movement) {
-        move += movement
-        this.setState({decelerate: 0})
-        this.shifting()
-    }
-
-    unclick (event) {
-        this.setState({clicked:false})
-        let movement = this.state.move
-        const decelerate = this.decelerate
-        decelerate(movement) //After unclicking slows down over 1 second using the decelerate function 
+    const unclick = (event) => {
+        clicked = false
+        let moving = movement //After unclicking slows down over 1 second using the decelerate function 
         const timer = setInterval(() => {
-            decelerate(movement)
-            movement *= (2/3) 
+            decelerate(moving)
+            moving *= (2/3) 
         }, 16)
         setTimeout(() => clearInterval(timer), 1000)
-        this.setState({move: 0})
+        movement = 0
     }
 
-    shifting () { //moves array if pulled by user or decelerating
-        const shift = this.state.shift
-        if (move < -199){
-            move = 0
-            if (shift === this.props.games.length - 1){
-                this.setState({shift: 0})
+    const shifting = () => { //moves array if pulled by user or decelerating
+        if (move < -99){
+            move = 99
+            if (shift === props.games.length - 1){
+                shift = 0
             }
             else{
-                this.setState({shift: shift + 1})
+                shift = shift + 1
             }
         }
-        if (move > 199){
-            move = 0
+        if (move > 99){
+            move = -99
             if (shift === 0){
-                this.setState({shift: this.props.games.length - 1})
+                shift = props.games.length - 1
             }
             else{
-                this.setState({shift: shift - 1})
+                shift = shift - 1
             }
         }
     }
 
-    scroll (event) { //Controlled movement by user
+    const scroll = (event) => { //Controlled movement by user
         event.preventDefault()
-        if (this.state.clicked){
+        if (clicked){
             move += event.movementX
-            this.shifting()
+            subArray()
             if (move !== 0){
-                this.setState({move})
+                movement = event.movementX
             }
+            
         }
     }
 
-    subArray = () => { //Turns the array of games into a cycle that loops on itself
+    const subArray = () => { //Turns the array of games into a cycle that loops on itself
+        shifting()
         let content = []
-        let shift = this.state.shift
-        let array = this.props.games
-        let fullness = this.props.games.length - 10
+        let array = props.games
+        let fullness = props.games.length - 10
         let sliderLength = 10
         if (fullness < 0){
             sliderLength += fullness
@@ -102,8 +99,8 @@ class Slider extends Component{
             let center = ""
             if (i === 4){
                 center = "highlighted"
-                if (this.state.info.title !== array[num].title){
-                    this.setState({info: array[num]})
+                if (info.title !== array[num].title){
+                    setInfo(array[num])
                 }
             }
             content.push(<div key={i} style={{"translate": move + "px"}} className={center}>
@@ -113,50 +110,42 @@ class Slider extends Component{
                     <div>{array[num].players}</div>
                 </div>)
         }
-        return content
+        setContent(content)
     }
 
-    settingOwn = (info, owner) => {
-        this.setState({info: {...info, [owner + "Own"]: !info[owner + "Own"]}})
+    const settingOwn = (info, owner) => {
+        setInfo({...info, [owner + "Own"]: !info[owner + "Own"]})
     }
     
-    settingComplete = (info, owner) => {
-        this.setState({info: {...info, [owner + "Complete"]: !info[owner + "Complete"]}})
+    const settingComplete = (info, owner) => {
+        setInfo({...info, [owner + "Complete"]: !info[owner + "Complete"]})
     }
 
-    shift = (movement) => {
-        const decelerate = this.decelerate
-        decelerate(movement) //After unclicking slows down over 1 second using the decelerate function 
+    const shiftOne = (moving) => { //After unclicking slows down over 1 second using the decelerate function 
         const timer = setInterval(() => {
-            decelerate(movement)
-            movement *= (2/3) 
+            decelerate(moving)
+            moving *= (2/3) 
         }, 16)
         setTimeout(() => clearInterval(timer), 1000)
-        this.setState({move: 0})
+        movement = 0
     }
 
     // const handlers = useSwipeable({
     //     onSwiped: (eventData) => console.log("User Swiped!", eventData)
     //   });
 
-    render(){
-        
-        if (this.props.games.length > 0){
-            return (
-            <div className="info">
-                <div className="arrows">
-                    <div onClick={() => this.shift(-55)} className="arrow">&#8592;</div>
-                    <div className='waterwheel' onMouseMove={this.scroll} onMouseDown={this.click} onMouseUp={this.unclick} onMouseLeave={this.unclick}>
-                        {this.subArray()}
-                    </div>
-                    <div onClick={() => this.shift(55)} className="arrow">&#8594;</div>
-                </div>
-                
-                <SliderInfo owners={this.props.owners} checkOwn={this.props.checkOwn} checkComplete={this.props.checkComplete} info={this.state.info} settingOwn={this.settingOwn} settingComplete={this.settingComplete}/>
-            </div>)
-        }
-        return <div></div>
-    }
+
+    return (
+    <div className="info">
+        <div className="arrows">
+            <div onClick={() => shiftOne(-70)} className="arrow">&#8592;</div>
+            <div className='waterwheel' onMouseMove={scroll} onMouseDown={click} onMouseUp={unclick} onMouseLeave={unclick}>
+                {content}
+            </div>
+            <div onClick={() => shiftOne(70)} className="arrow">&#8594;</div>
+        </div>
+        <SliderInfo owners={props.owners} checkOwn={props.checkOwn} checkComplete={props.checkComplete} info={info} settingOwn={settingOwn} settingComplete={settingComplete}/>
+    </div>)
 }
 
 export default Slider
