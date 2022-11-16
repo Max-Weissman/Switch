@@ -58,14 +58,21 @@ const Slider = (props) => {
     }
 
     const scroll = (event) => { //Controlled movement by user
-        event.preventDefault()
         if (clicked){
+            event.preventDefault()
             move += event.movementX
             subArray()
             if (move !== 0){
                 movement = event.movementX
             }
-            
+        }
+        else if (event.deltaX){
+            let change = event.deltaX / 30
+            move += change
+            subArray()
+            if (move !== 0){
+                movement = change
+            }
         }
     }
 
@@ -114,16 +121,18 @@ const Slider = (props) => {
         movement = 0
     }
 
-    // const handlers = useSwipeable({
-    //     onSwiped: (eventData) => console.log("User Swiped!", eventData)
-    //   });
+    const handlers = useSwipeable({
+        onSwiping: (event) => {
+            scroll(event)
+        }
+      });
 
 
     return (
     <div className="info">
         <div className="arrows">
             <div onClick={() => shiftOne(-70)} className="arrow">&#8592;</div>
-            <div className='waterwheel' onMouseMove={scroll} onMouseDown={click} onMouseUp={unclick} onMouseLeave={unclick}>
+            <div className='waterwheel' onMouseMove={scroll} onMouseDown={click} onMouseUp={unclick} onMouseLeave={unclick} {...handlers}>
                 {content}
             </div>
             <div onClick={() => shiftOne(70)} className="arrow">&#8594;</div>

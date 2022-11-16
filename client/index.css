@@ -207,21 +207,15 @@ body {
     }
     
     .arrows {
-        display: flex;
-        align-items: center;
+        
     }
     
     .arrow {
-        font-size: 60;
+        font-size: 0;
     }
     
     .waterwheel {
-        display: flex;
-        justify-content: center;
-        border: solid 5px;
-        overflow: hidden;
-        width: 1000px;
-        margin: 1px;
+        width: 360
     }
 
     .pic {
@@ -254,41 +248,28 @@ body {
     }
     
     .own {
-        border: solid 5px;
-        margin: 5px;
-        border-radius: 30px;
-        padding: 5px;
-        text-align: center;
+        border: solid 3px;
+        margin: 0px;
+        padding: 0px;
+        margin-bottom: 5px;
     }
     
     .complete {
-        background-color: blue;
-        border: solid 5px;
-        text-decoration: line-through;
+        border: solid 3px;
         text-decoration-thickness: 3px;
-        margin: 5px;
-        border-radius: 30px;
-        padding: 5px;
-        text-align: center;
+        margin: 0px;
+        padding: 0px;
     }
-    
+
     .own:hover, .complete:hover {
-        border-color: #cac9c9;
-    }
-    
-    .label:hover {
         border-color: black;
     }
     
     .unchecked {
-        background-color: red;
-        color:  #ff7f5a;
-        border: black solid 5px;
-        text-decoration: none;
+        border: solid 3px;
     }
     
     .checked {
-        background-color: #fffa29;
-        color: black;
+        border: solid 3px;
     }
   }
